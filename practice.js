@@ -2,6 +2,7 @@ $(button);
 
 function button(){
     $("#formButton").click(function(){
-    $("div#list").prepend("<p>あああ</p>");
+    var moji = $("#formText").val();
+    $("div#list").prepend("<p>" + moji + "</p>");
     });
 };
