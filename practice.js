@@ -21,6 +21,6 @@ function get() {
     for(var i=0, len=localStorage.length; i<len; i++) {
         key = localStorage.key(i);
         value = localStorage.getItem(key);
-        $("div#list").prepend("<p>" + value + "</p>");
+        $("div#list").prepend("<p>" + value + "</p><br><p><span>" + key + "</span></p>");
     }
 }
