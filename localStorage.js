@@ -9,6 +9,9 @@ function loaded() {
       saveText();
       showText();
     });
+    $("#deleteButton").click(function() {
+        deleteText();
+    });
 }
 
 // 入力された内容をローカルストレージに保存する
@@ -66,4 +69,19 @@ function checkText(text) {
 
   // すべてのチェックを通過できれば可
   return true;
+}
+
+function deleteText() {
+    var text = $("formText").val();
+    // すでに入力された値があれば不可
+  var length = localStorage.length;
+  for (var i = 0; i < length; i++) {
+    var key = localStorage.key(i);
+    var value = localStorage.getItem(key);
+    // 内容が一致するものがあるか比較
+    if (text === value) {
+        alert(value + "を削除します");
+      localStorage.removeItem(key);
+    }
+  }
 }
