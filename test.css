@@ -41,3 +41,12 @@
 #main #main_inner #list p:before {
     content: "・";
 }
+#main #main_inner #list span:before {
+    content: " - ";
+    padding-left: 20px;
+}
+#main #main_inner #list span {
+    float: right;
+    font-size: 0.5rem;
+    color: #9F9F9F;
+}
