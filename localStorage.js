@@ -11,6 +11,7 @@ function loaded() {
     });
     $("#deleteButton").click(function() {
         deleteText();
+        showText();
     });
 }
 
@@ -72,16 +73,25 @@ function checkText(text) {
 }
 
 function deleteText() {
-    var text = $("formText").val();
+  // 時刻をキーにして入力されたテキストを保存する
+  var text = $("#formText");
+  var text_val = escapeText(text.val());
     // すでに入力された値があれば不可
   var length = localStorage.length;
   for (var i = 0; i < length; i++) {
     var key = localStorage.key(i);
-    var value = localStorage.getItem(key);
-    // 内容が一致するものがあるか比較
-    if (text === value) {
-        alert(value + "を削除します");
-      localStorage.removeItem(key);
+    var storage_value = localStorage.getItem(key);
+          // 内容が一致するものがあるか比較
+    if (text_val === storage_value) {
+        alert("リスト「" + text_val + "」を削除します");
+        localStorage.removeItem(key);
+        // テキストボックスを空にする
+        text.val("");
+        return true;
     }
   }
+    alert("リスト内に「" + text_val + "」という項目は見つかりませんでした。");
+  // テキストボックスを空にする
+  text.val("");
+  return false;
 }
