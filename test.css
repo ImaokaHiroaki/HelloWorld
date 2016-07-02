@@ -1,0 +1,43 @@
+#main {
+    min-width: 1080px;
+    padding: 20px 0 50px;
+    background-color: #0394E8;
+}
+#main #main_inner {
+    width: 900px;
+    margin: 0px auto;
+    padding: 0 29px 30px;;
+    background-color: #D9F1FF;
+    border-radius: 10px;        /* CSS3草案 */
+    -webkit-border-radius: 10px;    /* Safari,Google Chrome用 */  
+    -moz-border-radius: 10px;   /* Firefox用 */
+         box-shadow:0px 0px 20px rgba(0,0,0,0.4);
+    border: 20px solid #fff;
+}
+#main #main_inner h1 {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #0394E8;
+}
+#main #main_inner #form {
+    text-align: center;
+}
+#main #main_inner #form > * {
+    display: inline-block;
+}
+#main #main_inner #form #formText {
+    padding: 10px;
+    font-size: 1.3rem;
+}
+#main #main_inner #form #formButton {
+    margin-left: 10px;
+    font-size: 2.5rem;
+}
+#main #main_inner #list {
+    width: 590px;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+#main #main_inner #list p:before {
+    content: "・";
+}
