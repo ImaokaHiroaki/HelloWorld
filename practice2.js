@@ -6,7 +6,6 @@ function loaded(){
     
     var list = $("#list");
     list.children().remove();
-    
     $("#formButton").click(function(){
     //初期化
     var list = $("#list");
