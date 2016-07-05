@@ -6,10 +6,12 @@ function loaded() {
   $("#formButton").click(
     // コールバックとしてメソッドを引数にわたす
     function() {
+        $("#formText").css("background-color","#fff");
       saveText();
       showText();
     });
     $("#deleteButton").click(function() {
+        $("#formText").css("background-color","#fff");
         deleteText();
         showText();
     });
@@ -23,9 +25,10 @@ function saveText() {
   var val = escapeText(text.val());
   if(checkText(val)) {
   localStorage.setItem(time, val);
-}
+  $("#caution").text("");
   // テキストボックスを空にする
   text.val("");
+}
 }
 
 // ローカルストレージに保存した値を再描画する
@@ -52,7 +55,10 @@ function escapeText(text) {
 function checkText(text) {
   // 文字数が0または20以上は不可
   if (0 === text.length || 20 < text.length) {
-    alert("文字数は1〜20字にしてください");
+      $("#formText").css("background-color","#ffe6ea");
+      $("#caution").text("※文字数は1〜20字にしてください");
+  // テキストボックスを空にする
+  text.val("");
     return false;
   }
 
@@ -63,11 +69,11 @@ function checkText(text) {
     var value = localStorage.getItem(key);
     // 内容が一致するものがあるか比較
     if (text === value) {
-      alert("同じ内容は避けてください");
+      $("#formText").css("background-color","#ffe6ea");
+    $("#caution").text("※同じ内容は避けてください");
       return false;
     }
   }
-    
   // すべてのチェックを通過できれば可
   return true;
 }
@@ -83,15 +89,14 @@ function deleteText() {
     var storage_value = localStorage.getItem(key);
           // 内容が一致するものがあるか比較
     if (text_val === storage_value) {
-        alert("リスト「" + text_val + "」を削除します");
+        $("#caution").text("リスト「" + text_val + "」を削除しました");
         localStorage.removeItem(key);
         // テキストボックスを空にする
         text.val("");
         return true;
     }
   }
-    alert("リスト内に「" + text_val + "」という項目は見つかりませんでした。");
-  // テキストボックスを空にする
-  text.val("");
+    $("#formText").css("background-color","#ffe6ea");
+    $("#caution").text("※リスト内に「" + text_val + "」という項目は見つかりませんでした。");
   return false;
 }

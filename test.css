@@ -33,6 +33,13 @@
     margin-left: 10px;
     font-size: 2.5rem;
 }
+#main #caution {
+    width: 645px;
+    margin: 0 auto;
+    padding-top: 5px;
+    font-size: 0.8rem;
+    color: #ff002b;
+}
 #main #main_inner #list {
     width: 590px;
     margin: 0 auto;
