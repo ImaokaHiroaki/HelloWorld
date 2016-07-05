@@ -66,7 +66,7 @@ function checkText(text) {
       return false;
     }
   }
-
+    
   // すべてのチェックを通過できれば可
   return true;
 }
