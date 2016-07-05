@@ -29,7 +29,7 @@
     padding: 10px;
     font-size: 1.3rem;
 }
-#main #main_inner #form #formButton {
+#main #main_inner #form #formButton, #deleteButton {
     margin-left: 10px;
     font-size: 2.5rem;
 }
@@ -46,6 +46,7 @@
     padding-left: 20px;
 }
 #main #main_inner #list span {
+    margin-top: 3px;
     float: right;
     font-size: 0.5rem;
     color: #9F9F9F;
