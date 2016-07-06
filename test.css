@@ -1,6 +1,7 @@
 #main {
     min-width: 1080px;
-    padding: 20px 0 50px;
+    min-height: 900px;
+    padding: 50px 0 50px;
     background-color: #0394E8;
 }
 #main #main_inner {
@@ -45,6 +46,14 @@
     margin: 0 auto;
     padding-top: 30px;
 }
+#main #main_inner #list .list_value p{
+    float:left;
+}
+#main #main_inner #list .list_value p:hover {
+    color: #0394E8;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
 #main #main_inner #list p:before {
     content: "・";
 }
@@ -52,8 +61,8 @@
     content: " - ";
     padding-left: 20px;
 }
-#main #main_inner #list span {
-    margin-top: 3px;
+#main #main_inner #list .list_value span {
+    margin-top: 20px;
     float: right;
     font-size: 0.5rem;
     color: #9F9F9F;
