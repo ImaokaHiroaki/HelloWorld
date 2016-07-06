@@ -26,7 +26,7 @@ function saveText() {
   var text = $("#formText");
   var time = new Date();
   var month = time.getMonth() + parseInt(1);
-  var key_time = time.getFullYear() + "年" + month + "月" + time.getDate() + "日" + time.getHours() + "時" + time.getMinutes() + "分" + time.getSeconds() + "秒";
+  var key_time = time.getFullYear() + "年" + month + "月" + time.getDate() + "日" + time.getHours() + "時" + time.getMinutes() + "分" + time.getSeconds() + "秒(" + time.getMilliseconds()  + ")";
   var val = escapeText(text.val());
   if(checkText(val)) {
   localStorage.setItem(key_time, val);
@@ -44,7 +44,7 @@ function showText() {
   for(var i=0, len=localStorage.length; i<len; i++) {
     key = localStorage.key(i);
     value = localStorage.getItem(key);
-    $(list).prepend("<div class='list_value clearfix'><p>" + value + "</p><span> " + key + "</span></div>");
+    $("#list").prepend("<div class='list_value clearfix'><p>" + value + "</p><span> " + key + "</span></div>");
   }
   list.append(html.join(''));
 }
@@ -60,7 +60,7 @@ function checkText(text) {
   if (0 === text.length) {
       $("#formText").css("background-color","#ffe6ea");
       $("#caution").text("※文字数は1〜20字にしてください");
-  text.val("");
+      text.val("");
     return false;
   }
 
