@@ -1,6 +1,8 @@
 $(loaded);
 
 function loaded() {
+    
+    
     showText();
     //リストをクリックするとその内容がフォームに入力される
     $(document).on("click","#list p",function() {
@@ -11,6 +13,20 @@ function loaded() {
     $("#formButton").click(function() {
         $("#formText").css("background-color","#fff");
         saveText();
+        showText();
+
+//    for(var i=0, len=localStorage.length; i<len; i++) {
+//        keys = ("00" + i).slice(-3);
+//        value = localStorage.getItem(keys);
+//        date = localStorage.getItem("date_"+keys);
+//        console.log(value + "「" + keys + "」");
+//    }
+//        console.log("-----");
+    });
+    $("#AlldeleteButton").click(function() {
+        $("#formText").css("background-color","#fff");
+        localStorage.clear();
+        
         showText();
     });
     //リストの削除
@@ -24,15 +40,34 @@ function loaded() {
 // 入力された内容をローカルストレージに保存する
 function saveText() {
     var text = $("#formText");
-    var time = new Date();
-    var month = ("0"+(time.getMonth() + parseInt(1))).slice(-2);
-    var day = ("0"+time.getDate()).slice(-2);
-    var hour = ("0"+time.getHours()).slice(-2);
-    var minutes = ("0"+time.getMinutes()).slice(-2);
-    var seconds = ("0"+time.getSeconds()).slice(-2);
-    var key_time = time.getFullYear() + "年" + month + "月" + day + "日" + hour + "時" + minutes + "分" + seconds + "秒(" + time.getMilliseconds()  + ")";
+    
+    var list = {
+        number: "Number",
+        value: "Value",
+        date: "Date",
+        check: "Checked"
+    }
+    
+    
     if(checkText(text.val())) {
-        localStorage.setItem(key_time, text.val());
+        
+        list.number = ("00" + localStorage.length).slice(-3);
+        
+        list.value = text.val();
+        
+        //日付を設定
+        var time = new Date();
+        var month = ("0"+(time.getMonth() + parseInt(1))).slice(-2);
+        var day = ("0"+time.getDate()).slice(-2);
+        var hour = ("0"+time.getHours()).slice(-2);
+        var minutes = ("0"+time.getMinutes()).slice(-2);
+        var seconds = ("0"+time.getSeconds()).slice(-2);
+        
+        list.date = time.getFullYear() + "年" + month + "月" + day + "日" + hour + "時" + minutes + "分" + seconds + "秒(" + time.getMilliseconds()  + ")";
+        localStorage.setItem(list.number,JSON.stringify(list));
+        //日付を登録
+ //       var date_key = "date_" + list_key;
+ //       localStorage.setItem(date_key, key_time);
         $("#caution").text("");
         text.val("");
     }
@@ -40,26 +75,19 @@ function saveText() {
 
 // ローカルストレージに保存した値を再描画する
 function showText() {
-    var list = $("#list");
-    list.children().remove();
+    var list_ = $("#list");
+    list_.children().remove();
     
-    var key, value, html = [];
-    var keys = [];//最終的にpushするもの
-  for(var i=0, len=localStorage.length-1; i<=len; len--) {
-    key = localStorage.key(len);
-    if(key) {
-        value = localStorage.getItem(key);
-    }
-  }
-    
+    var keys, value, date, html = [];
     
     for(var i=0, len=localStorage.length; i<len; i++) {
-        key = localStorage.key(i);
-        value = localStorage.getItem(key);
-        var val = escapeText(value);
-        $("#list").prepend("<div class='list_value clearfix'><p>" + val + "</p><span> " + key + "</span></div>");
+        keys = ("00" + i).slice(-3);
+        
+        var list = JSON.parse(localStorage.getItem(keys));
+        var val = escapeText(list.value);
+        $("#list").prepend("<div class='list_value clearfix'><p>" + val + "</p><span> " + list.date + "</span></div>");
+        console.log(list.number + "/" + list.value + "/" + list.date)
     }
-    list.append(html.join(''));
 }
 
 // 文字をエスケープする
@@ -76,19 +104,19 @@ function checkText(text) {
         text.val("");
         return false;
     }
-
-    // すでに入力された値があれば不可
-    var length = localStorage.length;
-    for (var i = 0; i < length; i++) {
-        var key = localStorage.key(i);
-        var value = localStorage.getItem(key);
-        if (text === value) {
-            $("#formText").css("background-color","#ffe6ea");
-            $("#caution").text("※同じ内容は避けてください");
-            text.val("");
-            return false;
-        }
-    }
+//
+//    // すでに入力された値があれば不可
+//    var length = localStorage.length;
+//    for (var i = 0; i < length; i++) {
+//        var key = localStorage.key(i);
+//        var value = localStorage.getItem(key);
+//        if (text === value) {
+//            $("#formText").css("background-color","#ffe6ea");
+//            $("#caution").text("※同じ内容は避けてください");
+//            text.val("");
+//            return false;
+//        }
+//    }
     // すべてのチェックを通過できれば可
     return true;
 }
