@@ -2,31 +2,19 @@ $(loaded);
 
 function loaded() {
     
-    var list = {
-        number: "000",
-        content: "Content",
-        date: "Date",
-        check: "0"
-    }
-    localStorage.setItem(list.number,JSON.stringify(list));
-    
     showText();
+    
     //リストの登録
     $("#formButton").click(function() {
         $("#formText").css("background-color","#fff");
         saveText();
         showText();
     });
+    
+    //全削除
     $("#AlldeleteButton").click(function() {
         $("#formText").css("background-color","#fff");
         localStorage.clear();
-        
-        showText();
-    });
-    //リストの削除
-    $("#deleteButton").click(function() {
-        $("#formText").css("background-color","#fff");
-        deleteText();
         showText();
     });
 }
@@ -58,9 +46,6 @@ function saveText() {
         
         list.date = time.getFullYear() + "年" + month + "月" + day + "日" + hour + "時" + minutes + "分" + seconds + "秒(" + time.getMilliseconds()  + ")";
         localStorage.setItem(list.number,JSON.stringify(list));
-        //日付を登録
- //       var date_key = "date_" + list_key;
- //       localStorage.setItem(date_key, key_time);
         $("#caution").text("");
         text.val("");
     }
