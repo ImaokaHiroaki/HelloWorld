@@ -46,11 +46,13 @@
     margin: 0 auto;
     padding-top: 30px;
 }
+#main #main_inner #list .check {
+    width: 25px;
+    height: 59px;
+    float: left;
+}
 #main #main_inner #list .list_value p{
     float:left;
-}
-#main #main_inner #list p:before {
-    content: "・";
 }
 #main #main_inner #list span:before {
     content: " - ";

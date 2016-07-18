@@ -2,20 +2,20 @@ $(loaded);
 
 function loaded() {
     
+    var list = {
+        number: "000",
+        content: "Content",
+        date: "Date",
+        check: "0"
+    }
+    localStorage.setItem(list.number,JSON.stringify(list));
+    
     showText();
     //リストの登録
     $("#formButton").click(function() {
         $("#formText").css("background-color","#fff");
         saveText();
         showText();
-
-//    for(var i=0, len=localStorage.length; i<len; i++) {
-//        keys = ("00" + i).slice(-3);
-//        value = localStorage.getItem(keys);
-//        date = localStorage.getItem("date_"+keys);
-//        console.log(value + "「" + keys + "」");
-//    }
-//        console.log("-----");
     });
     $("#AlldeleteButton").click(function() {
         $("#formText").css("background-color","#fff");
@@ -37,17 +37,16 @@ function saveText() {
     
     var list = {
         number: "Number",
-        value: "Value",
+        content: "Content",
         date: "Date",
-        check: "Checked"
+        check: "0"
     }
-    
     
     if(checkText(text.val())) {
         
         list.number = ("00" + localStorage.length).slice(-3);
         
-        list.value = text.val();
+        list.content = text.val();
         
         //日付を設定
         var time = new Date();
@@ -74,23 +73,46 @@ function showText() {
     
     var keys, value, date, html = [];
     
-    for(var i=0, len=localStorage.length; i<len; i++) {
-        keys = ("00" + i).slice(-3);
+    for(var i=0, len=localStorage.length-1; i<=len; len--) {
+        keys = ("00" + len).slice(-3);
         
         var list = JSON.parse(localStorage.getItem(keys));
-        var val = escapeText(list.value);
+        var val = escapeText(list.content);
         
-        $("#list").prepend("<input type='button' onClick='delete_list(" + list.number + ")'  value='↑削除'/>");
-        $("#list").prepend("<div class='list_value clearfix'><p>" + val + "</p><span> " + list.date + "</span></div>");
-        console.log(list.number + "/" + list.value + "/" + list.date);
+        if (list.check == 1){
+            $("#list").append("<div class='list_value clearfix'><input class='check' type='checkbox' onClick='checkbox(" + keys + ");' checked='checked' /><p>" + val + "</p><span> " + list.date + "</span></div>");
+        }else {
+            $("#list").append("<div class='list_value clearfix'><input class='check' type='checkbox' onClick='checkbox(" + keys + ");' /><p>" + val + "</p><span> " + list.date + "</span></div>");
+        }
+        console.log(list.check);
+        
+        $("#list").append("<input type='button' onClick='delete_list(" + list.number + ")'  value='↑削除'/>");
+        
+        console.log(list.number + "/" + list.content + "/" + list.date);
     }
 }
 
-function delete_list(key) {
-     key = ("00" + key).slice(-3);
+//チェックボックスのデータ
+function checkbox(val)
+ {
+     key = ("00" + val).slice(-3);
+     
+     var list = JSON.parse(localStorage.getItem(key));
+     if (list.check == 1) {
+         list.check = 0;
+     }else {
+         list.check = 1;
+     }
+     localStorage.removeItem(list.number);
+    localStorage.setItem(list.number,JSON.stringify(list));
+     showText();
+ }
+
+//削除ボタンの制御
+function delete_list(val) {
+     key = ("00" + val).slice(-3);
     
     localStorage.removeItem(key);
-    console.log("hit!" + key );
     showText();
 }
 
@@ -114,10 +136,9 @@ function checkText(text) {
     for (var i = 0; i < length; i++) {
         keys = ("00" + i).slice(-3);
         var list = JSON.parse(localStorage.getItem(keys));
-        if (text === list.value) {
+        if (text === list.content) {
             $("#formText").css("background-color","#ffe6ea");
             $("#caution").text("※同じ内容は避けてください");
-            text.val("");
             return false;
         }
     }
