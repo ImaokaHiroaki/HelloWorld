@@ -49,11 +49,6 @@
 #main #main_inner #list .list_value p{
     float:left;
 }
-#main #main_inner #list .list_value p:hover {
-    color: #0394E8;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
 #main #main_inner #list p:before {
     content: "・";
 }

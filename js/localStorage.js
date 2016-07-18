@@ -2,13 +2,7 @@ $(loaded);
 
 function loaded() {
     
-    
     showText();
-    //リストをクリックするとその内容がフォームに入力される
-    $(document).on("click","#list p",function() {
-        var text = $(this).text();
-        $("#formText").val(text);
-    });
     //リストの登録
     $("#formButton").click(function() {
         $("#formText").css("background-color","#fff");
@@ -85,9 +79,19 @@ function showText() {
         
         var list = JSON.parse(localStorage.getItem(keys));
         var val = escapeText(list.value);
+        
+        $("#list").prepend("<input type='button' onClick='delete_list(" + list.number + ")'  value='↑削除'/>");
         $("#list").prepend("<div class='list_value clearfix'><p>" + val + "</p><span> " + list.date + "</span></div>");
-        console.log(list.number + "/" + list.value + "/" + list.date)
+        console.log(list.number + "/" + list.value + "/" + list.date);
     }
+}
+
+function delete_list(key) {
+     key = ("00" + key).slice(-3);
+    
+    localStorage.removeItem(key);
+    console.log("hit!" + key );
+    showText();
 }
 
 // 文字をエスケープする
@@ -104,50 +108,19 @@ function checkText(text) {
         text.val("");
         return false;
     }
-//
-//    // すでに入力された値があれば不可
-//    var length = localStorage.length;
-//    for (var i = 0; i < length; i++) {
-//        var key = localStorage.key(i);
-//        var value = localStorage.getItem(key);
-//        if (text === value) {
-//            $("#formText").css("background-color","#ffe6ea");
-//            $("#caution").text("※同じ内容は避けてください");
-//            text.val("");
-//            return false;
-//        }
-//    }
+
+    // すでに入力された値があれば不可
+    var length = localStorage.length;
+    for (var i = 0; i < length; i++) {
+        keys = ("00" + i).slice(-3);
+        var list = JSON.parse(localStorage.getItem(keys));
+        if (text === list.value) {
+            $("#formText").css("background-color","#ffe6ea");
+            $("#caution").text("※同じ内容は避けてください");
+            text.val("");
+            return false;
+        }
+    }
     // すべてのチェックを通過できれば可
     return true;
-}
-
-//入力されたリストの削除を行う
-function deleteText() {
-    var text = $("#formText");
-    var length = localStorage.length;
-    
-    //文字が記入されていなければ不可
-    if(text.val().length === 0){
-        $("#formText").css("background-color","#ffe6ea");
-        $("#caution").text("※削除したいリストをご記入ください。");
-        text.val("");
-        return false;
-    }else{
-        for (var i = 0; i < length; i++) {
-            var key = localStorage.key(i);
-            var storage_value = localStorage.getItem(key);
-            // 内容が一致するものがあるか比較
-            if (text.val() === storage_value) {
-                $("#caution").text("リスト「" + text.val() + "」を削除しました");
-                localStorage.removeItem(key);
-                text.val("");
-                return true;
-            }
-        }
-        //内容が一致する者がなければ不可
-        $("#formText").css("background-color","#ffe6ea");
-        $("#caution").text("※リスト内に「" + text.val() + "」という項目は見つかりませんでした。");
-        text.val("");
-        return false;
-    }
 }
