@@ -62,34 +62,38 @@ function showText() {
         keys = ("00" + len).slice(-3);
         
         var list = JSON.parse(localStorage.getItem(keys));
+        if (list != null){
         var val = escapeText(list.content);
         
         if (list.check == 1){
-            $("#list").append("<div class='list_value clearfix'><input class='check' type='checkbox' onClick='checkbox(" + keys + ");' checked='checked' /><p>" + val + "</p><span> " + list.date + "</span></div>");
-        }else {
-            $("#list").append("<div class='list_value clearfix'><input class='check' type='checkbox' onClick='checkbox(" + keys + ");' /><p>" + val + "</p><span> " + list.date + "</span></div>");
+            $("#list").append("<div class='list_value clearfix'><input class='check' type='checkbox' onClick='checkbox(" + list.number + ");' checked='checked' /><p>" + val + "</p><span> " + list.date + "</span></div>");
+        } else {
+            $("#list").append("<div class='list_value clearfix'><input class='check' type='checkbox' onClick='checkbox(" + list.number + ");' /><p>" + val + "</p><span> " + list.date + "</span></div>");
         }
-        console.log(list.check);
         
         $("#list").append("<input type='button' onClick='delete_list(" + list.number + ")'  value='↑削除'/>");
         
-        console.log(list.number + "/" + list.content + "/" + list.date);
+        console.log(list.number + "/" + list.content);
+        }
     }
+    console.log("-----");
 }
 
 //チェックボックスのデータ
-function checkbox(val)
- {
+function checkbox(val) {
      key = ("00" + val).slice(-3);
-     
+     console.log(val);
      var list = JSON.parse(localStorage.getItem(key));
+     if (list != null) {
+     
      if (list.check == 1) {
          list.check = 0;
-     }else {
+     } else {
          list.check = 1;
      }
      localStorage.removeItem(list.number);
-    localStorage.setItem(list.number,JSON.stringify(list));
+     localStorage.setItem(list.number,JSON.stringify(list));
+     }
      showText();
  }
 
@@ -98,6 +102,7 @@ function delete_list(val) {
      key = ("00" + val).slice(-3);
     
     localStorage.removeItem(key);
+    localStorage.setItem(key,"null");
     showText();
 }
 
@@ -112,7 +117,6 @@ function checkText(text) {
     if (0 === text.length) {
         $("#formText").css("background-color","#ffe6ea");
         $("#caution").text("※文字数は1〜20字にしてください");
-        text.val("");
         return false;
     }
 
@@ -121,10 +125,12 @@ function checkText(text) {
     for (var i = 0; i < length; i++) {
         keys = ("00" + i).slice(-3);
         var list = JSON.parse(localStorage.getItem(keys));
-        if (text === list.content) {
-            $("#formText").css("background-color","#ffe6ea");
-            $("#caution").text("※同じ内容は避けてください");
-            return false;
+        if (list != null){
+            if (text === list.content) {
+                $("#formText").css("background-color","#ffe6ea");
+                $("#caution").text("※同じ内容は避けてください");
+                return false;
+            }
         }
     }
     // すべてのチェックを通過できれば可
